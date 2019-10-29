@@ -1,13 +1,13 @@
 # mongophp
 
-In MongoDB,
-Tables are called as “Collection”
-Rows are called as “Documents”
-Columns are called as “Fields”
+#In MongoDB,
+#Tables are called as “Collection”
+#Rows are called as “Documents”
+#Columns are called as “Fields”
 
 
 
-show dbs
+#show dbs
 
 
 > use test
