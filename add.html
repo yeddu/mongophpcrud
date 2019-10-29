@@ -7,7 +7,7 @@
     <a href="index.php">Home</a>
     <br/><br/>
  
-    <form action="add.php" method="post" name="form1">
+    <form action="add.php" method="post" name="form1" enctype="multipart/form-data">
         <table width="25%" border="0">
             <tr> 
                 <td>Name</td>
@@ -20,6 +20,10 @@
             <tr> 
                 <td>Email</td>
                 <td><input type="text" name="email"></td>
+            </tr>
+            <tr> 
+                <td>Profile Pic</td>
+                <td><input type="file" name="cover" ></td>
             </tr>
             <tr> 
                 <td></td>

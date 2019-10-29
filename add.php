@@ -8,12 +8,14 @@
 //including the database connection file
 include_once("config.php");
  
-if(isset($_POST['Submit'])) {    
-    $user = array (
-                'name' => $_POST['name'],
-                'age' => $_POST['age'],
-                'email' => $_POST['email']
-            );
+if(isset($_POST['Submit'])) {   
+    if (isset($_FILES["cover"])) {
+        $questionCover = $_FILES["cover"];
+        $user["cover"] =  new MongoDB\BSON\Binary(file_get_contents($questionCover["tmp_name"]), MongoDB\BSON\Binary::TYPE_GENERIC);
+    }
+    $user["name"] = $_POST['name'];
+    $user["age"]= $_POST['age'];
+    $user["email"] = $_POST['email'];
         
     // checking empty fields
     $errorMessage = '';
