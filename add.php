@@ -9,9 +9,8 @@
 include_once("config.php");
  
 if(isset($_POST['Submit'])) {   
-    if (isset($_FILES["cover"]) && !empty($questionCover["tmp_name"])) {
-        $questionCover = $_FILES["cover"];
-        $user["cover"] =  new MongoDB\BSON\Binary(file_get_contents($questionCover["tmp_name"]), MongoDB\BSON\Binary::TYPE_GENERIC);
+    if (isset($_FILES["cover"]) && !empty($_FILES["cover"]["tmp_name"])) {
+        $user["cover"] =  new MongoDB\BSON\Binary(file_get_contents($_FILES["cover"]["tmp_name"]), MongoDB\BSON\Binary::TYPE_GENERIC);
     }
     $user["name"] = $_POST['name'];
     $user["age"]= $_POST['age'];

@@ -45,8 +45,6 @@ $connection = new MongoDB\Client("mongodb://localhost:27017");//new MongoDB\Driv
 //echo "<pre>";var_dump($result);
 $db = (new MongoDB\Client)->test->users;
 
-$result = $db->find();
-
 //foreach ($cursor as $restaurant) {
 //   echo "<Pre>";print_r($restaurant);
 //};

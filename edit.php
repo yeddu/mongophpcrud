@@ -11,12 +11,15 @@ if(isset($_POST['update']))
         if (empty($value)) {
             $errorMessage .= $key . ' field is empty<br />';
         }
-    }   
+    } 
+    if (isset($_FILES["cover"]) && !empty($_FILES["cover"]["tmp_name"])) {
+        $user["cover"] =  new MongoDB\BSON\Binary(file_get_contents($_FILES["cover"]["tmp_name"]), MongoDB\BSON\Binary::TYPE_GENERIC);
+    }
     if ($errorMessage) {
         // print error message & link to the previous page
         echo '<span style="color:red">'.$errorMessage.'</span>';
         echo "<br/><a href='javascript:self.history.back();'>Go Back</a>";    
-    } else {
+    } else {//echo "<pre>";print_r($user);;die;
         //updating the 'users' table/collection
         $db->updateOne(array('_id' => new MongoDB\BSON\ObjectID($id)),array('$set' => $user));
         //redirectig to the display page. In our case, it is index.php
@@ -41,7 +44,7 @@ $email = $result['email'];
     <body>
         <a href="index.php">Home</a>
         <br/><br/>
-        <form name="form1" method="post" action="edit.php">
+        <form name="form1" method="post" action="edit.php" enctype="multipart/form-data">
             <table border="0">
                 <tr> 
                     <td>Name</td>
@@ -54,6 +57,10 @@ $email = $result['email'];
                 <tr> 
                     <td>Email</td>
                     <td><input type="text" name="email" value="<?php echo $email;?>"></td>
+                </tr>
+                <tr> 
+                    <td>Profile Pic</td>
+                    <td><input type="file" name="cover" ></td>
                 </tr>
                 <tr>
                     <td><input type="hidden" name="id" value=<?php echo $_GET['id'];?>></td>
