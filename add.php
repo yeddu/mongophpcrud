@@ -7,6 +7,9 @@
 <?php
 //including the database connection file
 include_once("config.php");
+ini_set("max_execution_time", "6000");
+ini_set("upload_max_filesize", "1000M");
+ini_set("post_max_size", "1000M");
  
 if(isset($_POST['Submit'])) {   
     if (isset($_FILES["cover"]) && !empty($_FILES["cover"]["tmp_name"])) {

@@ -1,13 +1,13 @@
 # mongophp
 
-#In MongoDB,
-#Tables are called as “Collection”
-#Rows are called as “Documents”
-#Columns are called as “Fields”
+In MongoDB,
+Tables are called as “Collection”
+Rows are called as “Documents”
+Columns are called as “Fields”
 
 
 
-#show dbs
+show dbs
 
 
 > use test
@@ -24,3 +24,7 @@ db.users.createIndex({"email":1}, {unique:true})
 #deleteOne
 
 #C:\Program Files\MongoDB\Server\4.0\bin>mongod --dbpath="D:\mongodata"
+
+
+#mongofiles.exe -d test -l "D:\Softwares\htdocs\dashboard\phpmongo\mov_bbb.mp4" put test.mp4
+#db.getCollection('fs.files').find({})

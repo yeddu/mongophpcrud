@@ -44,6 +44,8 @@ $connection = new MongoDB\Client("mongodb://localhost:27017");//new MongoDB\Driv
 //$result = $users->find([]);
 //echo "<pre>";var_dump($result);
 $db = (new MongoDB\Client)->test->users;
+//$db_files = (new MongoDB\Client)->test->fs.files;
+//$bucket = (new MongoDB\Client)->test->selectGridFSBucket();
 
 //foreach ($cursor as $restaurant) {
 //   echo "<Pre>";print_r($restaurant);
