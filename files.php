@@ -1,10 +1,23 @@
 <?php
 //including the database connection file
 include_once("config.php");
-$bucket = (new MongoDB\Client)->test->selectGridFSBucket()->find();
+
+$page  = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+$limit = 30;
+$skip  = ($page - 1) * $limit;
+$next  = ($page + 1);
+$prev  = ($page - 1);
+
+$options = [
+    "limit" => $limit,
+    "skip" => $skip
+];
+$cnt = (new MongoDB\Client)->test->{"fs.files"};
+$bucket = (new MongoDB\Client)->test->selectGridFSBucket();
+$results = $bucket->find([], $options);
 ?>
 <html>
-<head>    
+<head>
     <title>Homepage</title>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -14,40 +27,47 @@ $bucket = (new MongoDB\Client)->test->selectGridFSBucket()->find();
 </head>
  
 <body>
+    <div class="container-fluid">
         <a href="add.html">Add New Data</a><br/><br/>
-        <?php echo "<div class='row'>";
-            foreach ($bucket as $res) {
+        <?php 
+            echo "<div class='row'>";
+            $i=1;
+            foreach ($results as $res) {
                 $path_info = pathinfo($res['filename']);
+                if($i%6 == 0 ){$i=1;echo "</div><div class='row'>";}
                 if(in_array($path_info['extension'], ['jpg', 'jpeg','png','bmp','webp'] )) {
                    echo '<div class="col-md-2">
-                            <div class="thumbnail">
-                                <img src="./stream.php?name='.$res['filename'].'" width="300" height="240">
-                            </div></div>';
+                                <img src="./stream.php?name='.$res['filename'].'" width="300" height="240">'.$i.'
+                        </div>';
                     //echo '<div class="col-lg-1 pics animation all 2"><img src="./stream.php?name='.$res['filename'].'" width="320" height="240"> </div>';
                 } else if(in_array($path_info['extension'], ['mp3', 'mp4','3gp'] )){
                    echo '<div class="col-md-2">
-                            <div class="thumbnail">
                                 <video width="300" height="240" autoplay controls><source src="./stream.php?name='.$res['filename'].'" type="video/mp4">Your browser does not support the video tag.</video>
-                            </div>
-                          </div>';
+                          '.$i.'
+                        </div>';
                     //echo '<div class="col-lg-1"><video width="320" height="240" autoplay controls><source src="./stream.php?name='.$res['filename'].'" type="video/mp4">Your browser does not support the video tag.</video></div>';
                 }
-            }echo "</div>";
+                $i++;
+            }
+            echo "</div>";
         ?>
-	<div class=''>
+        <div class='row' style="float:right">
+            <b>
 		<?php 
-//                    $total= $db->count();
-//                    if($page > 1){
-//                        echo '<a href="?page=' . $prev . '">Previous</a>';
-//                        if($page * $limit < $total) {
-//                            echo ' <a href="?page=' . $next . '">Next</a>';
-//                        }
-//                    } else {
-//                        if($page * $limit < $total) {
-//                            echo ' <a href="?page=' . $next . '">Next</a>';
-//                        }
-//                    }
-		?>
+                    $total= $cnt->count();
+                    if($page > 1){
+                        echo '<a href="?page=' . $prev . '">Previous</a>';
+                        if($page * $limit < $total) {
+                            echo ' <a href="?page=' . $next . '">Next</a>';
+                        }
+                    } else {
+                        if($page * $limit < $total) {
+                            echo ' <a href="?page=' . $next . '">Next</a>';
+                        }
+                    }
+                    ?>
+            </b>
 	</div>
+    </div>
 </body>
 </html>
